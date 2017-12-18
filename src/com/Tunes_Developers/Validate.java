@@ -203,8 +203,14 @@ public class Validate {
                 ipNumber = Integer.parseInt(data.substring(dotPositions[2]+1,data.length()));
             }
 
-            if (ipNumber< 1 || ipNumber > 255) {
-                return false;
+            if (i == dotPositions.length - 1) {
+                if (ipNumber< 1 || ipNumber > 255) {
+                    return false;
+                }
+            }else{
+                if (ipNumber< 0 || ipNumber > 255) {
+                    return false;
+                }
             }
         }
         return true;
@@ -405,6 +411,14 @@ public class Validate {
             return true;
         }
         return false;
+    }
+
+    public static boolean unique(String table, String column, String data) throws Exception {
+        ResultSet rs = DB.table(table).where(column,data).get();
+        while (rs.next()) {
+            return false;
+        }
+        return true;
     }
 
     public static boolean in(String [] items, String data) {

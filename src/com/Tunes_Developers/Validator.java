@@ -18,7 +18,7 @@ public class Validator {
         List<String> messages = new ArrayList<>();
 
         for (ValidatorItem item : items) {
-            String message = decodeAndExecute(item);
+            String message = decodeAndExecute(item,items);
             if (message != null) {
                 messages.add(message);
             }
@@ -27,12 +27,12 @@ public class Validator {
         return messages;
     }
 
-    public static String decodeAndExecute(ValidatorItem vItem) throws Exception {
+    public static String decodeAndExecute(ValidatorItem vItem,List<ValidatorItem> items) throws Exception {
         List<ValidatorRule> rules = decodeRule(vItem);
         String messages = null;
 
         for (ValidatorRule vr : rules) {
-            ValidationData vd = ValidatorDecoder.decodeAndExecuteRule(vr);
+            ValidationData vd = ValidatorDecoder.decodeAndExecuteRule(vr,items);
             if (!vd.isTrue()) {
                 messages = vd.getMessage();
                 break;
