@@ -22,7 +22,7 @@ Download the jar file from maven and add it to your project dependencies.
 We are going to look at some of the basic functionalities and convenctions that make the validator api work efficiently.
 
 ## Validation Rule
-A validation rule to be checked on a validation data. An example is email; a rule that checks if the provided data is an valid email. Rules are always written in small caps and if a rule contains more than one word, each word is seperated by an underscore e.g. `alpha_dashed`.
+A validation rule to be checked on a validation data. An example is email; a rule that checks if the provided data is an valid email. Rules are always written in small caps and if a rule contains more than one word, each word is seperated by an underscore e.g. `alpha_dash`.
 
 ### Rule Parameters
 Some rules contain parameters e.g. `max_char`. To define parameters in a rule you provide a colon immediately after the rule and then provide your parameter e.g. `max_char:20` - It takes one parameter and should be an integer, if one of the conditions is not met the parser will throw a MissingParameterException or an IncorrectParameterException respectively.
@@ -72,7 +72,7 @@ import java.util.List;
 
 public class ValidateData {
     public static void main(String[] args) throws Exception {
-        List<String> messages = Validator.validate(
+        List<WarningMessage> messages = Validator.validate(
             // Define validation rule
             FXCollections.observableArrayList(
                 new ValidatorItem("username", "Daisy-Wanjiru",
@@ -91,8 +91,8 @@ public class ValidateData {
         );
 
         //Print out messages
-        for (String message : messages) {
-            System.out.println(message);
+        for (WarningMessage message : messages) {
+            System.out.println(message.getMessage());
         }
     }
 }
@@ -103,3 +103,87 @@ The above example validates each item and returns a warning message for each ite
 If List for warning messages is empty, it means that all the items validated are valid.
 
 ## Available Rules
+### after_date:date
+The item being validated must be after a specific date.
+### after_date_time:date
+The item being validated must be after a specific datetime.
+### apha
+The item being validated must contain only alphabetic characters.
+### alpha_dash
+The item being validated must contain only alphabetic characters, integer values, a dash and underscore.
+### alpha_email
+The item being validated must contain only alphabetic characters, integer values, a dash,an underscore, an @ symbol and a dot.
+### alpha_numeric
+The item being validated must contain only alphabetic characters and integer values.
+### alpha_space
+The item being validated must contain only alphabetic characters, integer values and a space.
+### before_date:date
+The item being validated must be before a specific date.
+### before_date_time:date
+The item being validated must be after a specific datetime.
+### char_between:min,max
+The item being validated must have characters more than or equal to min and less than or equal to max.
+### digits_between:min,max
+The item being validated must have digits more than min and less than max.
+### email
+The item being validated must be a valid email.
+### equal_to_date
+The item being validated must be equal to a specific date.
+### equal_to_date_time
+The item being validated must be equal to a specific datetime.
+### exists:table,column
+The item being validated must exist in a database table; table and the column; column.
+### in:foo,bar,...
+The item under validation must be included in the given list of values.
+### ip
+The item under validation must be an IP address.
+### max_char:value
+The item under validation must have characters that are less than or equal to the value provided.
+### min_char:value
+The item under validation must have characters that are more than or equal to the value provided.
+### not_in:foo,bar,...
+The item under validation must not be included in the given list of values.
+### numeric
+The item under validation must be an integer.
+### numeric_formatted
+The item under validation must only contain integers, `(`, `)`, `-` and spaces. Common in telephone numbers.
+### required
+The item under validation must not be present (Must not be empty).
+### required_with:foo,bar
+The field under validation must be present only if any of the other specified fields are present.
+### required_with_all:foor,bar
+The field under validation must be present only if all of the other specified fields are present.
+### required_without
+The field under validation must be present only when any of the other specified fields are not present.
+### required_without_all
+The field under validation must be present only when all of the other specified fields are not present.
+### same
+The given field must match the field under validation or match the value specified.
+### unique
+The item under validation must be unique on a given database table.
+
+## Validate Class
+You may need to validate items without using validation rules. This API allows for this functionality using the Validate class. The validate class has all the rules defined in the previous topic in form of static methods. e.g. `validate.email(String data)`. Below is an example
+
+```java
+package com.Tunes_Developers;
+
+import com.Tunes_Developers.Fake.Faker;
+
+public class Main {
+    public static void main(String[] args) throws Exception {
+        // Char Between
+        System.out.println(Validate.charBetween(4,8,"Geoffrey"));
+        //Digits Between
+        System.out.println(Validate.digitsBetween(2,6,"897y"));
+        //Exists in Database
+        System.out.println(Validate.exists("students","name","Daisy"));
+        //Available in fruit items
+        System.out.println(Validate.in(new String[]{"apple","pineapple","avocado","pears","passion","banana"},"banana"));
+        //Not available in fruits items
+        System.out.println(Validate.notIn(new String[]{"apple","pineapple","avocado","pears","passion","banana"},"apple"));
+        //Email
+        System.out.println(Validate.email("johndoe@examaple.com"));
+    }
+}
+```

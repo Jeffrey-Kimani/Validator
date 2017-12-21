@@ -1,5 +1,6 @@
 package com.Tunes_Developers.tests;
 
+import com.Tunes_Developers.Models.WarningMessage;
 import com.Tunes_Developers.Validator;
 import com.Tunes_Developers.Models.ValidatorItem;
 import javafx.collections.FXCollections;
@@ -18,8 +19,8 @@ public class TestValidator {
                         "required|alpha_space|max_char:30|min_char:5|unique:students,name"),
                 new ValidatorItem("email","geoffreykariithi@hotmail.com",
                         "required|max_char:150|min_char:10|email"),
-                new ValidatorItem("ip address","127.300.0.1",
-                        "required|ip"),
+        new ValidatorItem("ip address","127.300.0.1",
+                "required|ip"),
                 new ValidatorItem("phone number","07",
                         "required_with_all:name,email|numeric|digits_between:10,150"),
                 new ValidatorItem("password","secret",
@@ -34,10 +35,14 @@ public class TestValidator {
                         "required_with:name,email|not_in:mango,grapes,apple,peach,water melon,banana")
         );
 
-        List<String> messages = Validator.validate(items);
+        List<WarningMessage> messages = Validator.validate(items);
 
-        for (String message : messages) {
-            System.out.println(message);
+        for (WarningMessage message : messages) {
+            System.out.println(message.getMessage());
+        }
+
+        if (WarningMessage.hasMessage("password_confirmation", messages)) {
+            System.out.println("The password has to be re-written again");
         }
     }
 }

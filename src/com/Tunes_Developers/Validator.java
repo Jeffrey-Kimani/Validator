@@ -4,6 +4,7 @@ import com.Tunes_Developers.Exceptions.ValidatorException;
 import com.Tunes_Developers.Models.ValidationData;
 import com.Tunes_Developers.Models.ValidatorItem;
 import com.Tunes_Developers.Models.ValidatorRule;
+import com.Tunes_Developers.Models.WarningMessage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,13 +15,13 @@ import java.util.regex.Pattern;
  * Created by Geoffrey-Kimani on 12/17/2017.
  */
 public class Validator {
-    public static List<String> validate(List<ValidatorItem> items) throws Exception {
-        List<String> messages = new ArrayList<>();
+    public static List<WarningMessage> validate(List<ValidatorItem> items) throws Exception {
+        List<WarningMessage> messages = new ArrayList<>();
 
         for (ValidatorItem item : items) {
             String message = decodeAndExecute(item,items);
             if (message != null) {
-                messages.add(message);
+                messages.add(new WarningMessage(item.getName(),message));
             }
         }
 
