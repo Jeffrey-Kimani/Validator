@@ -4,16 +4,16 @@ Validator is a java api that equiped with validation rules to validate your data
 Validating each field by itself can be very cumbersome and repetative and some times the warning and error messages returned to the users from validation rules can be the same. The validator api provides this functionality out of the box. You can validate multiple fields instantly and get warnings where these validation rules are not met.
 
 ## Table Of Contents
-- [Instalation]
-- [Basic Usage]
-    - [Validation Rule]
-        + [Rule Parameters]
-        + [Chaining Validation Rules]
-    - [Validating Multiple Items]
-        + [Validaor Item]
-    - [Validate Fields]
-- [Available Rules]
-- [Validate Class]
+- Instalation
+- Basic Usage
+    - Validation Rule
+        + Rule Parameters
+        + Chaining Validation Rules
+    - Validating Multiple Items
+        + Validaor Item
+    - Validate Fields
+- Available Rules
+- Validate Class
 
 ## Installation
 Download the jar file from maven and add it to your project dependencies.
